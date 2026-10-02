@@ -1,0 +1,50 @@
+{
+ "_hinweis": "🔴 `personen` wird VON HAND gesetzt, nachdem drei Frames je Clip angesehen wurden (0,15 / 0,5 / 0,85 der Laufzeit). Der Suchbegriff beweist nichts: In der ersten Runde am 25.09.2026 lieferte „house facade wall paint texture“ eine Hand im blauen Einweghandschuh und „mural painting wall detail art“ einen Graffiti-Künstler in voller Figur. Regel: kein Gesicht, keine Hand in Stockmaterial — der Besucher liest jede Person als Dieter Müller oder einen seiner Gesellen. `pruefen.py` prüft das Feld, es ersetzt die Sichtprüfung nicht.",
+
+ "hero-farbe": {
+  "quelle": "Freepik", "id": 5841856, "suche": "paint pouring", "personen": false,
+  "wo": "Startseite", "zeigt": "Farbe läuft in den Eimer, Nahaufnahme"
+ },
+ "fassade": {
+  "quelle": "Freepik", "id": 2526372, "suche": "bavarian village house facade", "personen": false,
+  "wo": "Fassadengestaltung · Kontakt",
+  "zeigt": "Gasthaus mit Blumenkästen am Dorfplatz, grün-weiße Fassade",
+  "hinweis": "Ersetzt am 25.09.2026 den Clip 1120516 — der zeigte einen Mann im Maleroverall auf der Leiter, also einen fremden Handwerker im Hero der Kontaktseite."
+ },
+ "holz": {
+  "quelle": "Freepik", "id": 4259296, "suche": "timber facade sunlight", "personen": false,
+  "wo": "Holzschutzanstriche",
+  "zeigt": "verwitterter Lattenzaun im Gegenlicht — genau der Zustand, den ein Pflegeanstrich verhindert",
+  "hinweis": "Ersetzt am 25.09.2026 den Clip 4418921 (Hand mit Pinsel in Nahaufnahme)."
+ },
+ "innenraum": {
+  "quelle": "Freepik", "id": 4891517, "suche": "painting interior wall roller", "personen": false,
+  "wo": "Innenraumgestaltung · Leistungen", "zeigt": "zwei Farbroller an der frisch gestrichenen Wand"
+ },
+ "tapete": {
+  "quelle": "Freepik", "id": 236538, "suche": "vintage floral wallpaper pattern", "personen": false,
+  "wo": "Tapezierarbeiten", "zeigt": "Blumentapete an der Wand, Muster über die Fläche",
+  "hinweis": "Ersetzt am 25.09.2026 den Clip 5841856 (Person kniend beim Tapezieren). Der erste Ersatzkandidat 2770480 war verworfen worden: eine blau lackierte Plattenfläche, keine Tapete."
+ },
+ "schrift": {
+  "quelle": "Freepik", "id": 7114663, "suche": "old painted wall advertisement lettering", "personen": false,
+  "wo": "Beschriftungen · Referenzen",
+  "zeigt": "von Hand gemalte Fassadenschrift auf farbiger Wand",
+  "hinweis": "Ersetzt am 25.09.2026 den Clip 966089 (Hand mit Pinsel). Verworfen wurde außerdem 9622621 — ein GRAVIERTES Holzschild einer mexikanischen Bar: personenfrei, aber inhaltlich falsch auf einer Seite über gemalte Schrift, und mit fremdem Firmennamen."
+ },
+ "handmalerei": {
+  "quelle": "Freepik", "id": 5513821, "suche": "decorative wall ornament painted", "personen": false,
+  "wo": "Sonderarbeiten", "zeigt": "farbig gestaltete Wand mit gemaltem Ornament",
+  "hinweis": "Ersetzt am 25.09.2026 den Clip 1116909. Verworfen wurde außerdem 7785204 — ein Graffiti-Künstler mit Bart und Kappe in voller Figur."
+ },
+ "betrieb": {
+  "quelle": "Freepik", "id": 9718277, "suche": "stepladder in room undergoing interior painting", "personen": false,
+  "wo": "Der Betrieb", "zeigt": "Trittleiter und Abdeckung im Raum, dokumentarisch",
+  "hinweis": "Noah am 23.09.2026 zum Vorgänger 8260774: „video ist zu künstlich beim betrieb“ — das war ein gestellter Stock-Maler. Die Person auf dieser Seite ist Dieter selbst, auf seinem eigenen Foto direkt darunter."
+ },
+ "werkstatt": {
+  "quelle": "Freepik", "id": 2947288, "suche": "paint workshop tools", "personen": false,
+  "wo": "— AUSGEMUSTERT, nicht wieder einsetzen",
+  "hinweis": "Zeigt Künstlerpinsel und ein gemaltes Apfelbild, also Künstlerei statt Malerhandwerk (23.09.2026)."
+ }
+}

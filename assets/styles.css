@@ -1,0 +1,765 @@
+/* ===========================================================================
+   Malermeister Müller — Website-Konzept, Fassung 4 „Der Anstrich" (22.09.2026)
+
+   🔴 Neubau nach Noahs Verwurf der Serif-Fassung („noch älter und unmoderner
+   als davor, mach einfach ne neue seite"). Maßstab: Taro · Drehkranz · Pröbstl ·
+   stanz-schmidt.de — dunkler Video-Hero mit Aussage unten links, EINE
+   geometrische Grotesk (Manrope), Pillen, EIN Radius für alles (24 px), eine
+   Kachel-Leiste direkt unter dem Hero, flache KPI-Kacheln mit Farbkante,
+   Bildbänder mit Statement. Die drei Logofarben laufen als EIN Farbstrich
+   durch die Seite (Laufleiste, Unterstrich, Kanten, Achse, Walzenbahnen).
+   Keine Serife, kein Papier, keine Haarlinien-Kästchen.
+   =========================================================================== */
+
+:root{
+  --nacht:#0E0D14;
+  --kohle:#17161F;
+  --tinte:#14131A;
+  --weiss:#FFFFFF;
+  --hell:#F3F2F0;
+  --hell-tief:#E9E7E3;
+  --grau:#63616E;
+  --indigo:#30246C;
+  --indigo-hell:#7A6AE0;
+  --gelb:#F0E43C;
+  --rot:#E2392C;
+  --linie:rgba(20,19,26,.1);
+  --linie-hell:rgba(255,255,255,.14);
+
+  --akzent:var(--indigo);
+  --verlauf:linear-gradient(90deg, var(--indigo) 0%, var(--indigo-hell) 30%, var(--gelb) 62%, var(--rot) 100%);
+
+  --sans:"Manrope", "Inter", system-ui, -apple-system, sans-serif;
+  --breite:1328px;
+  --rand:32px;
+  /* 🔴 EIN Radius-System (Noah, 22.09.2026: „designregeln … oft mit rundung der ecken
+     und abständen"): 24 px für Fotos, Kacheln, Karten, Bänder · 12 px für alles Kleine
+     (Icons, Felder, Menüzeilen, Plaketten) · 999 für Pillen, Chips, Punkte. Nichts dazwischen —
+     gemessen waren 12, 14, 16 und 24 gleichzeitig im Einsatz. */
+  --r:24px;
+  --r-klein:12px;
+  /* 🔴 EIN Sektionsabstand; Abwechslung kommt aus den Flächenfarben, nie aus wechselnden
+     Abständen (Regelwerk: 100–110 px). Gemessen waren 72 · 115 · 130 · 144 · 170 px. */
+  --sekt:clamp(72px,7.5vw,108px);
+  --sekt-eng:clamp(40px,4vw,56px);
+  --rand-aussen:16px;   /* Luft zwischen einem Band und dem Fensterrand */
+  --pad:28px;          /* Innenpolster jeder Karte */
+  --gap:16px;          /* Abstand in jedem Raster */
+  --kopf:82px;
+  --leiste:38px;
+  --weich:cubic-bezier(.2,.65,.2,1);
+}
+[data-farbe="gelb"]{ --akzent:var(--gelb) }
+[data-farbe="rot"]{ --akzent:var(--rot) }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+html.menu-offen{overflow:hidden}
+body{margin:0; background:var(--weiss); color:var(--tinte); font:400 17px/1.6 var(--sans);
+  -webkit-font-smoothing:antialiased; overflow-x:clip}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit}
+[hidden]{display:none !important}
+::selection{background:var(--gelb); color:var(--tinte)}
+
+/* ── Typo ─────────────────────────────────────────────────────────────── */
+h1,h2,h3,h4{margin:0; font-weight:800; letter-spacing:-.03em; text-wrap:balance}
+h1{font-size:clamp(44px,6.4vw,96px); line-height:1.0}
+h2{font-size:clamp(32px,4.2vw,60px); line-height:1.05}
+h3{font-size:clamp(20px,1.7vw,24px); line-height:1.25; letter-spacing:-.015em}
+.h3-gross{font-size:clamp(26px,2.6vw,36px)}
+h1 em,h2 em{font-style:normal; color:var(--gelb)}
+p{margin:0 0 1.1em; text-wrap:pretty}
+.gross{font-size:clamp(17px,1.35vw,20px); line-height:1.55}
+.grau{color:var(--grau)}
+.auf-dunkel .grau{color:rgba(255,255,255,.72)}
+.kicker{display:inline-flex; align-items:center; gap:10px; font:700 13px/1.2 var(--sans);
+  letter-spacing:.16em; text-transform:uppercase; color:var(--indigo)}
+.kicker::before{content:""; width:28px; height:3px; border-radius:999px; background:var(--verlauf)}
+/* 🔴 Kicker auf dem Foto steht auf eigener dunkler Glas-Pille — Weiß direkt auf hellen
+   Fotostellen maß 4,1–4,5:1 (Holzschutz, Innenraum, Referenzen), Gelb 3,7:1. */
+.kicker.hell{color:#fff; padding:9px 16px 9px 12px; border-radius:999px; background:rgba(14,13,20,.6);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.14)}
+.kapitel{display:inline-flex; align-items:center; gap:12px; font:700 13px/1 var(--sans);
+  letter-spacing:.16em; text-transform:uppercase; color:var(--grau)}
+.kapitel b{display:inline-grid; place-items:center; min-width:34px; height:26px; padding:0 8px;
+  border-radius:999px; background:var(--tinte); color:#fff; font:800 13px/1 var(--sans); letter-spacing:.04em}
+.auf-dunkel .kapitel{color:rgba(255,255,255,.7)}
+.auf-dunkel .kapitel b{background:var(--gelb); color:var(--tinte)}
+.kopfzeile{display:flex; flex-direction:column; gap:18px; max-width:min(760px,100%); margin-bottom:clamp(36px,4vw,56px)}
+.kopfzeile .gross{margin:0; max-width:56ch}
+
+.wrap{width:100%; max-width:var(--breite); margin-inline:auto; padding-inline:var(--rand)}
+.wrap.schmal{max-width:860px}
+/* Auf den Rechtsseiten behalten Anschrift und Kontaktdaten ihre Zeilen. Der Wortlaut in
+   `rechtstexte.json` bleibt unverändert — es stehen nur Umbrüche darin (25.09.2026:
+   „Malermeister Müller Ludwig-Thoma-Straße 3 82362 Weilheim" stand in einer Zeile). */
+.wrap.schmal p{white-space:pre-line}
+section{position:relative}
+.abschnitt{padding:var(--sekt) 0}
+.abschnitt.eng{padding:var(--sekt-eng) 0}
+.flaeche-weiss{background:var(--weiss)}
+.flaeche-hell{background:var(--hell)}
+.flaeche-nacht{background:var(--nacht); color:#fff; margin-inline:var(--rand-aussen); border-radius:var(--r)}
+.auf-dunkel h1,.auf-dunkel h2,.auf-dunkel h3{color:#fff}
+.auf-dunkel p{color:rgba(255,255,255,.78)}
+
+/* ── Der Farbstrich ───────────────────────────────────────────────────── */
+.strich-linie{display:flex; height:4px; border-radius:999px; overflow:hidden; width:100%}
+.strich-linie b{flex:1; transform:scaleX(0); transform-origin:left; transition:transform .7s var(--weich)}
+.strich-linie b:nth-child(1){background:var(--indigo-hell)}
+.strich-linie b:nth-child(2){background:var(--gelb); transition-delay:.18s}
+.strich-linie b:nth-child(3){background:var(--rot); transition-delay:.36s}
+.da .strich-linie b,.fuss .strich-linie b,.quelle .strich-linie b{transform:scaleX(1)}
+.walze{position:fixed; inset:0 0 auto 0; height:4px; z-index:200; pointer-events:none}
+.walze b{display:block; height:100%; background:var(--verlauf); transform:scaleX(0); transform-origin:left}
+
+/* ── Kopf: Infoleiste + Navigation, dunkles Glas ──────────────────────── */
+.kopf{position:fixed; inset:0 0 auto 0; z-index:120; color:#fff;
+  transition:transform .45s var(--weich), background .35s ease}
+.kopf .leiste{height:var(--leiste); font-size:13.5px; color:rgba(255,255,255,.72);
+  background:rgba(14,13,20,.55); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--linie-hell); transition:height .3s ease, opacity .3s ease; overflow:hidden}
+.kopf .leiste .wrap{display:flex; justify-content:space-between; align-items:center; height:100%; gap:20px}
+.leiste-kontakt{display:flex; gap:22px}
+.leiste-kontakt a{display:inline-flex; align-items:center; gap:7px; text-decoration:none; color:#fff}
+.leiste-kontakt svg{width:14px; height:14px; opacity:.8}
+.kopf.fest .leiste{height:0; opacity:0; border:0}
+.kopf-zeile{display:flex; align-items:center; gap:24px; height:var(--kopf)}
+.kopf.fest{background:rgba(14,13,20,.84); backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%); box-shadow:0 1px 0 var(--linie-hell)}
+.kopf.weg{transform:translateY(-102%)}
+.marke{display:flex; align-items:center; gap:13px; text-decoration:none; flex-shrink:0; color:#fff}
+/* 🔴 Oben links steht SEIN Logo (Noah, 21.09.2026) — freigestellt, auf einer
+   kleinen weißen Platte, weil es für weißes Papier gezeichnet ist. */
+.marke-platte{display:grid; place-items:center; width:52px; height:52px; border-radius:var(--r-klein); background:#fff; flex:0 0 auto}
+.marke-platte img{height:36px; width:auto}
+.marke-text b{display:block; font:800 17px/1.1 var(--sans); letter-spacing:-.02em}
+.marke-text small{display:block; font:600 13px/1.3 var(--sans); letter-spacing:.1em; text-transform:uppercase;
+  color:rgba(255,255,255,.62); margin-top:3px}
+.nav{display:flex; align-items:center; gap:4px; margin-left:auto}
+.nav > a,.nav .hat-menu > a{display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 14px;
+  font:700 15px/1 var(--sans); color:rgba(255,255,255,.86); text-decoration:none; border-radius:999px;
+  transition:background .2s ease, color .2s ease}
+.nav > a:hover,.nav .hat-menu > a:hover{background:rgba(255,255,255,.1); color:#fff}
+.nav a[aria-current="page"]{color:#fff; background:rgba(255,255,255,.12)}
+.nav .hat-menu > a::after{content:""; width:6px; height:6px; border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+  transform:translateY(-2px) rotate(45deg); opacity:.7; margin-left:2px}
+.nav .pille{margin-left:12px; min-height:44px}
+.hat-menu{position:relative}
+.drop{position:absolute; top:100%; left:50%; transform:translate(-50%,10px); min-width:360px; padding:10px;
+  margin-top:10px; background:rgba(23,22,31,.96); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px);
+  border:1px solid var(--linie-hell); border-radius:var(--r); box-shadow:0 30px 60px -30px rgba(0,0,0,.7);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .22s ease, transform .3s var(--weich), visibility .22s; z-index:130}
+.drop::before{content:""; position:absolute; left:0; right:0; top:-16px; height:16px}
+.hat-menu:hover .drop,.hat-menu:focus-within .drop{opacity:1; visibility:visible; pointer-events:auto; transform:translate(-50%,0)}
+.drop a{display:flex; gap:14px; align-items:flex-start; padding:11px 12px; border-radius:var(--r-klein); text-decoration:none; color:#fff}
+.drop a:hover{background:rgba(255,255,255,.08)}
+.drop .punkt{width:38px; height:38px; border-radius:var(--r-klein); display:grid; place-items:center; flex:0 0 auto; color:#fff}
+.drop .punkt.indigo{background:var(--indigo-hell)}
+.drop .punkt.gelb{background:var(--gelb); color:var(--tinte)}
+.drop .punkt.rot{background:var(--rot)}
+.drop .punkt svg{width:18px; height:18px}
+.drop b{display:block; font:700 15px/1.3 var(--sans)}
+.drop span span{display:block; font-size:13.5px; line-height:1.45; color:rgba(255,255,255,.62); margin-top:2px}
+.drop .alle{justify-content:space-between; align-items:center; font:700 14px/1 var(--sans); color:var(--gelb);
+  border-top:1px solid var(--linie-hell); border-radius:0; margin-top:6px; padding:16px 12px 8px}
+.drop .alle svg{width:16px; height:16px}
+
+/* ── Pillen ───────────────────────────────────────────────────────────── */
+.pille{display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 24px;
+  border-radius:999px; border:1px solid transparent; font:700 15px/1 var(--sans); text-decoration:none; cursor:pointer;
+  transition:transform .25s var(--weich), background .25s ease, box-shadow .25s ease, border-color .25s ease}
+.pille svg{width:18px; height:18px; transition:transform .3s var(--weich)}
+.pille:hover{transform:translateY(-2px)}
+.pille:hover svg:last-child{transform:translateX(3px)}
+.pille:active{transform:scale(.97)}
+.pille.voll{background:var(--gelb); color:var(--tinte); box-shadow:0 14px 30px -16px rgba(240,228,60,.7)}
+.pille.voll:hover{background:#F6EC5C}
+/* 🔴 `.nav > a:hover` setzte die Schrift der gelben Nav-Pille auf Weiß — Gelb auf Weiß, unlesbar
+   (Noah, 22.09.2026: „über den gelben Button hauert, dann sieht man die Schrift nicht"). */
+.nav .pille.voll:hover,.nav > a.pille.voll:hover{color:var(--tinte); background:#F6EC5C}
+.pille.glas{background:rgba(255,255,255,.1); color:#fff; border-color:rgba(255,255,255,.28);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px)}
+.pille.glas:hover{background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.5)}
+.pille.dunkel{background:var(--tinte); color:#fff}
+.pille.dunkel:hover{background:#26243A}
+.pille.breit{width:100%}
+.knoepfe{display:flex; flex-wrap:wrap; gap:12px}
+
+.burger{display:none; width:48px; height:48px; border:1px solid rgba(255,255,255,.3); border-radius:999px;
+  background:rgba(255,255,255,.08); cursor:pointer; align-items:center; justify-content:center}
+.burger span{display:block; width:20px; height:2px; background:#fff; position:relative; border-radius:999px}
+.burger span::before,.burger span::after{content:""; position:absolute; left:0; width:20px; height:2px; border-radius:999px;
+  background:#fff; transition:transform .3s ease}
+.burger span::before{top:-6px} .burger span::after{top:6px}
+
+/* ── Hero: Video-Bühne, Aussage unten links ───────────────────────────── */
+/* 🔴 „ALLES rund mit EINEM Radius — Fotos, Karten, Bänder gleichermaßen" (Noahs finale
+   Entscheidung 09.08.2026, stanz-schmidt-DNA). Der Hero ist ein Band: unten gerundet. Die
+   Bänder darunter stehen mit 16 px Luft zum Rand und tragen denselben Radius. */
+.held{position:relative; min-height:100svh; display:flex; align-items:flex-end;
+  overflow:hidden; background:var(--nacht); padding-top:calc(var(--kopf) + var(--leiste));
+  border-radius:0 0 var(--r) var(--r)}
+.held.klein{min-height:100svh}
+/* 🔴 Unterseiten-Hero kleiner: „Beschriftungen von Hand / in Weilheim in Oberbayern." lief
+   bei 96 px in drei Zeilen und ließ „Oberbayern." allein stehen (Prüfer: Waise). */
+.held.klein h1{font-size:clamp(38px,5vw,72px); max-width:22ch}
+.held.recht{min-height:52vh}
+.held-medium{position:absolute; inset:0; z-index:0}
+.held-medium video,.held-medium img{width:100%; height:100%; object-fit:cover;
+  filter:saturate(.92) contrast(1.04); transform:scale(1.04); animation:held-zoom 14s ease-out forwards}
+@keyframes held-zoom{to{transform:scale(1)}}
+.held-medium::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(14,13,20,.94) 0%, rgba(14,13,20,.62) 34%, rgba(14,13,20,.22) 62%, rgba(14,13,20,.42) 100%)}
+.held-medium::before{content:""; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(100deg, rgba(48,36,108,.35) 0%, transparent 55%)}
+.held-inhalt{position:relative; z-index:3; padding-bottom:clamp(120px,14vw,190px); padding-top:56px;
+  display:flex; flex-direction:column; align-items:flex-start; gap:22px}
+.held.klein .held-inhalt{padding-bottom:clamp(64px,8vw,110px)}
+.held h1{color:#fff; max-width:16ch}
+.held .strich-linie{width:min(360px,60%); height:5px}
+.held .unter{color:rgba(255,255,255,.84); max-width:54ch; margin:0; font-size:clamp(17px,1.35vw,20px)}
+.held .knoepfe{margin-top:6px}
+.runter{position:absolute; right:clamp(24px,4vw,64px); bottom:clamp(120px,14vw,180px); z-index:3; width:28px; height:48px;
+  border:2px solid rgba(255,255,255,.4); border-radius:999px; display:grid; justify-content:center; padding-top:8px}
+.runter span{width:4px; height:10px; border-radius:999px; background:var(--gelb); animation:runter 1.8s ease-in-out infinite}
+@keyframes runter{0%,100%{transform:translateY(0); opacity:1} 60%{transform:translateY(16px); opacity:.2}}
+.held.klein .runter{display:none}
+
+/* ── Kachel-Leiste: ragt in den Hero hinein ───────────────────────────── */
+/* 🔴 Die Leiste ist DURCHSICHTIG: mit weißer Fläche deckte sie die unteren 150 px des
+   Heros ab, und die Kacheln standen auf einer harten Kante statt über dem Bild
+   (Noahs Screenshot, 22.09.2026). */
+.leiste-sektion{padding:0 0 var(--sekt); position:relative; z-index:4; margin-top:calc(-1 * clamp(48px,5vw,72px));   /* 🔴 02.10.2026: Kacheln weiter runter, ragen nur noch knapp in den Hero */
+  background:transparent !important}
+.kacheln{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--gap)}
+.kachel{position:relative; display:block; aspect-ratio:4/3; border-radius:var(--r); overflow:hidden; text-decoration:none;
+  background:var(--kohle); color:#fff; box-shadow:0 30px 60px -36px rgba(14,13,20,.55);
+  transition:transform .45s var(--weich), box-shadow .45s ease}
+.kachel:hover{transform:translateY(-6px); box-shadow:0 40px 70px -36px rgba(14,13,20,.7)}
+.kachel img{width:100%; height:100%; object-fit:cover; filter:saturate(.95); transition:transform 1s var(--weich)}
+.kachel:hover img{transform:scale(1.06)}
+.kachel::after{content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(14,13,20,.92) 0%, rgba(14,13,20,.35) 48%, transparent 100%)}
+.kachel::before{content:""; position:absolute; left:0; right:0; bottom:0; height:5px; z-index:3;
+  transform:scaleX(.35); transform-origin:left; transition:transform .5s var(--weich)}
+.kachel.indigo::before{background:var(--indigo-hell)}
+.kachel.gelb::before{background:var(--gelb)}
+.kachel.rot::before{background:var(--rot)}
+.kachel.kachel-cta{background:linear-gradient(135deg, #2A2842, var(--nacht) 70%)}
+.kachel.kachel-cta::before{background:var(--verlauf)}
+.kachel.kachel-cta .kachel-text i{background:var(--gelb); color:var(--tinte)}
+.kachel:hover::before{transform:scaleX(1)}
+.kachel-text{position:absolute; inset:auto var(--pad) var(--pad) var(--pad); z-index:2; display:flex; flex-direction:column; gap:4px}
+.kachel-text i{width:40px; height:40px; border-radius:var(--r-klein); display:grid; place-items:center; background:rgba(255,255,255,.14);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); margin-bottom:8px}
+.kachel-text i svg{width:20px; height:20px}
+.kachel-text b{font:800 clamp(19px,1.5vw,23px)/1.15 var(--sans); letter-spacing:-.02em}
+.kachel-text small{font-size:14px; color:rgba(255,255,255,.72); line-height:1.4; min-height:2.8em}   /* zwei Zeilen reserviert → Titel aller Kacheln auf einer Höhe */
+.kachel-text em{display:inline-flex; align-items:center; gap:6px; font:700 13px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gelb); margin-top:8px; opacity:0; transform:translateY(6px); transition:opacity .3s ease, transform .3s var(--weich)}
+.kachel-text em svg{width:14px; height:14px}
+.kachel:hover .kachel-text em{opacity:1; transform:none}
+
+/* ── Reveal ───────────────────────────────────────────────────────────── */
+.auf{opacity:0; transform:translateY(22px); transition:opacity .8s var(--weich), transform .8s var(--weich)}
+.auf.da{opacity:1; transform:none}
+.auf.v2{transition-delay:.1s} .auf.v3{transition-delay:.2s} .auf.v4{transition-delay:.3s}
+
+/* ── Signatur: die Walzenbahnen ziehen mit dem Scroll über das Foto ───── */
+.sig-raster{display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(36px,5vw,80px); align-items:stretch}
+/* 🔴 Das Foto ist mindestens so hoch wie die Textspalte (Noah, 02.10.2026: „der linke Abschnitt ist größer als die Kapelle“) */
+.haken{list-style:none; margin:0 0 28px; padding:0; display:grid; gap:12px}
+.haken li{display:flex; gap:12px; align-items:flex-start; font-weight:600}
+.haken svg{width:16px; height:16px; flex:0 0 auto; margin-top:5px; padding:2px; border-radius:999px; background:var(--gelb); color:var(--tinte); box-sizing:content-box}
+.walzen{--p:0; margin:0; position:relative; border-radius:var(--r); overflow:hidden; min-height:clamp(420px,40vw,600px); background:var(--kohle);
+  box-shadow:0 40px 80px -40px rgba(14,13,20,.5)}
+.walzen img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.walzen figcaption{z-index:2}
+.walzen .bahn{position:absolute; top:0; bottom:0; width:34%; mix-blend-mode:multiply; opacity:.92; pointer-events:none;
+  transform:translateX(calc(var(--p) * 320%)); will-change:transform}
+.walzen .b1{left:0; background:var(--indigo)}
+.walzen .b2{left:33%; background:var(--gelb); transform:translateX(calc(var(--p) * 230%))}
+.walzen .b3{left:66%; background:var(--rot); transform:translateX(calc(var(--p) * 140%))}
+.walzen figcaption{position:absolute; left:20px; bottom:20px; display:flex; flex-direction:column; gap:2px; padding:12px 16px;
+  border-radius:var(--r-klein); background:rgba(14,13,20,.7); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#fff}
+.walzen figcaption b{font:700 14.5px/1.2 var(--sans)}
+.walzen figcaption span{font-size:13px; color:rgba(255,255,255,.7)}
+
+/* ── KPI-Kacheln: flach, farbige Oberkante, eine Akzent-Kachel ─────────── */
+.kpis{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:var(--gap)}
+.kpi{position:relative; padding:var(--pad); border-radius:var(--r); background:var(--hell); overflow:hidden}
+.kpi::before{content:""; position:absolute; top:0; left:0; right:0; height:5px; background:var(--verlauf)}
+.kpi b{display:block; font:800 clamp(40px,3.8vw,58px)/1 var(--sans); letter-spacing:-.04em; color:var(--tinte)}
+.kpi span{display:block; margin-top:10px; font:700 14px/1.3 var(--sans); letter-spacing:.1em; text-transform:uppercase}
+.kpi small{display:block; margin-top:6px; font-size:14px; color:var(--grau)}
+.kpi.akzent{background:var(--indigo); color:#fff}
+.kpi.akzent b,.kpi.akzent span{color:#fff}
+.kpi.akzent small{color:rgba(255,255,255,.7)}
+.flaeche-hell .kpi{background:#fff}
+.flaeche-hell .kpi.akzent{background:var(--indigo)}
+
+/* ── Duo ──────────────────────────────────────────────────────────────── */
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:clamp(36px,5vw,88px); align-items:center}
+.duo.gedreht > .bild{order:-1}
+.duo .bild{border-radius:var(--r); overflow:hidden; aspect-ratio:4/3; background:var(--hell-tief);
+  box-shadow:0 40px 80px -44px rgba(14,13,20,.45)}
+.duo .bild.ganz{aspect-ratio:auto; background:var(--nacht)}
+.duo .bild.ganz img{width:100%; height:auto; object-fit:contain}
+.duo .bild img{width:100%; height:100%; object-fit:cover}
+.duo .text{max-width:54ch}
+.duo .text .kopfzeile{margin-bottom:22px}
+.duo .text p{font-size:17px}
+
+/* ── Bänder ───────────────────────────────────────────────────────────── */
+.band{position:relative; overflow:hidden; background:var(--nacht); color:#fff; padding:var(--sekt) 0;
+  margin-inline:var(--rand-aussen); border-radius:var(--r)}
+.band .hintergrund{position:absolute; inset:0; z-index:0}
+.band .hintergrund img{width:100%; height:100%; object-fit:cover; opacity:.55; filter:saturate(.85) contrast(1.05)}
+.band .hintergrund::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(96deg, rgba(14,13,20,.94) 0%, rgba(14,13,20,.6) 55%, rgba(14,13,20,.3) 100%)}
+.band .wrap{position:relative; z-index:2}
+.band .kopfzeile{margin-bottom:26px}
+.band.statement{padding:var(--sekt) 0}
+.band.statement .hintergrund::after{background:linear-gradient(to top, rgba(14,13,20,.92), rgba(14,13,20,.55))}
+.fuellung{margin:0; font:800 clamp(28px,3.6vw,54px)/1.15 var(--sans); letter-spacing:-.03em; max-width:22ch; text-wrap:balance}
+/* Deckkraft statt Farbe — so misst der Scroll-Text-Prüfer den Zustand (Skill scroll-text). */
+/* 🔴 Ruhe .5, voll 1: der weiße Lauf muss SICHTBAR sein (Noah, 22.09.2026: „so weiß durchgegangen
+   … das fand ich richtig cool") — und die Ruhe bleibt lesbar (≥ 4,5:1 gegen die Nachtfläche). */
+.fuellung .w{opacity:.5; transition:opacity .35s ease}
+.fuellung .w.an{opacity:1}
+.quelle{display:inline-flex; align-items:center; gap:16px; margin-top:28px; font:700 14px/1.2 var(--sans); letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.7)}
+.quelle .strich-linie{width:48px; height:4px; flex:0 0 auto}
+.band.cta{padding:var(--sekt) 0}
+.cta-karte{max-width:760px; padding:clamp(32px,4vw,56px); border-radius:var(--r); background:rgba(23,22,31,.72);
+  border:1px solid var(--linie-hell); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px)}
+.cta-karte h2{margin-bottom:14px}
+.cta-karte .knoepfe{margin-top:26px}
+
+/* ── Galerie: AUSGERICHTET (siehe galerie() im Bauplan) ───────────────── */
+.galerie{display:flex; flex-direction:column; gap:var(--gap)}
+.galerie .reihe{display:flex; gap:var(--gap); align-items:stretch}
+/* 🔴 `--verh` (Seitenverhältnis je Bild) — nie `--r`, das ist das Radius-Token. Beide im selben
+   Namen ließen jedes Galeriebild mit `border-radius: 1.78` (ungültig → 0 px) eckig stehen. */
+.galerie figure{margin:0; position:relative; display:flex; flex-direction:column; flex:var(--verh,1.33) 1 0}
+.galerie .reihe.rest figure{flex:0 1 calc(var(--verh,1.33) * 262px)}   /* 🔴 nicht volle Reihe wächst nicht */
+/* 🔴 …und steht deshalb MITTIG. Linksbündig liest sich eine 43-%-Reihe als Fehler: am
+   25.09.2026 endeten beide Galerien auf referenzen.html mit einer Kachel links und zwei
+   Dritteln Lücke daneben. Wachsen lassen ist keine Lösung — zwei Hochformate wären dann
+   790 px hoch. Mittig gesetzt ist dieselbe Reihe eine bewusste Gruppe. */
+.galerie .reihe.rest{justify-content:center}
+.galerie figure > img{width:100%; height:auto; aspect-ratio:var(--verh,1.33); flex:none; object-fit:cover;
+  border-radius:var(--r); transition:transform .9s var(--weich)}
+.galerie figure:hover img{transform:scale(1.02)}
+.galerie figcaption{padding:12px 6px 0; min-height:60px; display:flex; flex-direction:column; gap:2px}
+.galerie figcaption b{font:700 15px/1.3 var(--sans)}
+.galerie figcaption span{font-size:13.5px; color:var(--grau)}
+.auf-dunkel .galerie figcaption span{color:rgba(255,255,255,.62)}
+
+/* ── Punkte (Was dazugehört, Tugenden) ────────────────────────────────── */
+.punkte{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--gap)}
+.punkte.vier{grid-template-columns:repeat(4,minmax(0,1fr))}   /* 🔴 nie 3 + 1 */
+.punkte.vier .punkt-karte p{hyphens:manual}   /* „gehal-ten" in der schmalen Spalte — nein */
+.punkt-karte{position:relative; padding:var(--pad); border-radius:var(--r); background:#fff;
+  transition:transform .35s var(--weich), box-shadow .35s ease}
+.punkt-karte:hover{transform:translateY(-4px); box-shadow:0 30px 60px -36px rgba(14,13,20,.35)}
+.punkt-karte i{width:46px; height:46px; border-radius:var(--r-klein); display:grid; place-items:center; background:var(--akzent); color:#fff; margin-bottom:22px}
+[data-farbe="gelb"] .punkt-karte i{color:var(--tinte)}
+.punkt-karte i svg{width:22px; height:22px}
+.punkt-karte b{position:absolute; top:var(--pad); right:var(--pad); font:800 13px/1 var(--sans); letter-spacing:.1em; color:var(--grau)}
+.punkt-karte h3{margin-bottom:8px}
+.punkt-karte p{margin:0; color:var(--grau); font-size:15.5px}
+.flaeche-weiss .punkt-karte{background:var(--hell)}
+
+/* ── Ablauf: Achse mit Halten ─────────────────────────────────────────── */
+.achse-kopf{display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:end; margin-bottom:clamp(44px,6vw,72px)}
+.achse-kopf .kopfzeile{margin:0}
+.achse-kopf .gross{margin:0 0 6px; max-width:44ch}
+.achse{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; position:relative}
+.achse::before{content:""; position:absolute; left:24px; right:24px; top:23px; height:4px; border-radius:999px; background:var(--verlauf)}
+.halt{position:relative; padding-top:72px}
+.halt-punkt{position:absolute; top:0; left:0; width:50px; height:50px; border-radius:999px; display:grid; place-items:center;
+  background:var(--tinte); color:#fff; border:4px solid var(--hell)}
+.flaeche-nacht .halt-punkt{background:var(--gelb); color:var(--tinte); border-color:var(--nacht)}
+.halt-punkt svg{width:20px; height:20px}
+.halt b{display:block; font:800 13px/1 var(--sans); letter-spacing:.14em; color:var(--grau); margin-bottom:10px}
+.flaeche-nacht .halt b{color:rgba(255,255,255,.55)}
+.halt h3{margin-bottom:8px}
+.halt p{margin:0; font-size:15.5px; color:var(--grau); max-width:28ch}
+.flaeche-nacht .halt p{color:rgba(255,255,255,.7)}
+
+/* ── Orte ─────────────────────────────────────────────────────────────── */
+.orte-zeile{display:grid; grid-template-columns:1fr 1fr; gap:clamp(36px,5vw,80px); align-items:center}
+.orte-zeile h3{margin-top:14px; font-size:clamp(22px,2vw,28px)}
+.orte-text{margin-top:14px; max-width:40ch}
+/* 🔴 Einsatzgebiet als Karte mit Ringen — Luftlinie um die Werkstatt, gerechnet aus lat/lon. */
+.umkreis{position:relative; width:min(100%,600px); aspect-ratio:1; margin-inline:auto 0; border-radius:var(--r);
+  background:var(--hell); overflow:hidden}
+.umkreis .ring{position:absolute; left:50%; top:50%; width:var(--d); height:var(--d); transform:translate(-50%,-50%);
+  border:1.5px dashed rgba(45,45,111,.32); border-radius:50%}
+.umkreis .ring span{position:absolute; left:14.6%; bottom:14.6%; transform:translate(-50%,50%); font:700 13px/1 var(--sans);
+  color:var(--grau); background:var(--hell); padding:3px 8px; border-radius:999px}
+.umkreis .ort{position:absolute; width:12px; height:12px; transform:translate(-50%,-50%); border-radius:50%;
+  background:var(--indigo); box-shadow:0 0 0 4px rgba(45,45,111,.16)}
+.umkreis .ort b{position:absolute; left:18px; top:50%; transform:translateY(-50%); white-space:nowrap;
+  font:700 14px/1 var(--sans); color:var(--tinte)}
+.umkreis .ort.links b{left:auto; right:18px}
+.umkreis .ort.oben b{left:50%; top:auto; bottom:14px; transform:translateX(-50%)}
+/* Vierte Richtung — gebraucht, seit die Beschriftungen gerechnet statt gesetzt werden
+   (25.09.2026: „Wielenbach" lag auf „Starnberger See"). */
+.umkreis .ort.unten b{left:50%; top:14px; transform:translateX(-50%)}
+.umkreis .ort.mitte{width:18px; height:18px; background:var(--gelb); box-shadow:0 0 0 6px rgba(240,228,60,.4)}
+.umkreis .ort.mitte b{font-size:16px; left:22px}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border-radius:999px; background:var(--hell);
+  font:600 14.5px/1 var(--sans)}
+.chip svg{width:14px; height:14px; color:var(--indigo)}
+
+/* ── FAQ ──────────────────────────────────────────────────────────────── */
+.faq-raster{display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(32px,5vw,80px); align-items:start}
+.faq-seite{position:sticky; top:calc(var(--kopf) + 30px)}
+.faq-seite .kopfzeile{margin-bottom:0}
+.faq-hilfe{margin-top:var(--pad); padding:var(--pad); border-radius:var(--r); background:#fff}
+.flaeche-weiss .faq-hilfe{background:var(--hell)}
+.faq-hilfe p{margin:0 0 16px; color:var(--grau); font-size:15.5px; max-width:32ch}
+.liste{list-style:none; margin:0; padding:0; display:grid; gap:var(--gap)}
+.liste li{background:#fff; border-radius:var(--r)}
+.flaeche-weiss .liste li{background:var(--hell)}
+.liste details{padding:var(--pad)}
+.liste summary{cursor:pointer; font:700 18px/1.4 var(--sans); letter-spacing:-.01em; list-style:none; display:flex; gap:18px; align-items:flex-start}
+.liste summary::-webkit-details-marker{display:none}
+.liste .f-text{flex:1 1 auto; text-wrap:pretty}
+/* Höhe = Zeilenhöhe der Frage (18 × 1.4 ≈ 25px) — Marke und erste Zeile teilen sich dieselbe Mitte */
+.liste .f-marke{flex:0 0 auto; width:26px; height:26px; border-radius:999px; display:grid; place-items:center;
+  background:var(--tinte); color:#fff; transition:background .3s ease}
+.liste .f-marke svg{width:14px; height:14px; transition:transform .3s var(--weich)}
+.liste details[open] .f-marke{background:var(--gelb); color:var(--tinte)}
+.liste details[open] .f-marke svg{transform:rotate(45deg)}
+.liste details p{margin:12px 44px 0 0; color:var(--grau); max-width:64ch; font-size:16px}
+
+/* ── Kontakt ──────────────────────────────────────────────────────────── */
+.kontakt-raster{display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); align-items:stretch}
+.kontakt-karte{padding:clamp(28px,3.5vw,44px); border-radius:var(--r); background:var(--hell); display:flex; flex-direction:column; gap:18px}
+.kontakt-karte .h3-gross{margin-top:4px}
+.kontakt-karte > .grau{margin:-8px 0 8px; font-size:15.5px}
+.zeile{display:flex; gap:16px; align-items:flex-start; text-decoration:none}
+.zeile i{width:44px; height:44px; border-radius:var(--r-klein); display:grid; place-items:center; flex:0 0 auto; background:#fff; color:var(--indigo)}
+.zeile i svg{width:18px; height:18px}
+.zeile b{display:block; font:700 13px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase; color:var(--grau); margin-bottom:6px}
+.zeile span span{font-size:17px; font-weight:600; line-height:1.4}
+a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
+/* 🔴 Die linke Karte hatte weniger als das Formular — das Foto füllt die Resthöhe (Noah, 22.09.2026). */
+.karten-foto{margin:6px 0 0; flex:1 1 200px; min-height:200px; border-radius:var(--r); overflow:hidden}
+.karten-foto img{width:100%; height:100%; object-fit:cover; display:block}
+.feld{display:flex; flex-direction:column; gap:7px}
+.feld label{font:700 13px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase; color:var(--grau)}
+.feld input,.feld textarea{width:100%; padding:14px 16px; border:1px solid transparent; border-radius:var(--r-klein); background:#fff;
+  font:500 16px/1.5 var(--sans); color:var(--tinte); transition:border-color .2s ease, box-shadow .2s ease}
+.feld input:focus,.feld textarea:focus{outline:none; border-color:var(--indigo); box-shadow:0 0 0 4px rgba(48,36,108,.12)}
+.formular .pille{margin-top:6px}
+.hinweis-gesendet{color:var(--indigo) !important; font-weight:600}
+
+/* ── Fuß ──────────────────────────────────────────────────────────────── */
+.fuss{background:var(--nacht); color:#fff; padding:0 0 32px; position:relative}
+.fuss > .strich-linie{height:6px; border-radius:0}
+.fuss .wrap{padding-top:var(--sekt)}
+.fuss-raster{display:grid; grid-template-columns:1.4fr 1fr .8fr 1.2fr; gap:36px}
+.fuss-text{margin:20px 0 0; max-width:34ch; color:rgba(255,255,255,.66); font-size:15px}
+.fuss h4{font:700 13px/1 var(--sans); letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.5); margin:0 0 18px}
+.fuss a{display:inline-flex; min-height:34px; align-items:center; color:rgba(255,255,255,.84); text-decoration:none; font-size:15.5px}
+.fuss a:hover{color:var(--gelb)}
+.fuss ul{list-style:none; margin:0; padding:0}
+.fuss-kontakt li{display:flex; gap:11px; align-items:flex-start}
+.fuss-kontakt svg{width:16px; height:16px; flex:0 0 auto; margin-top:9px; color:var(--gelb)}
+.fuss-kontakt span{color:rgba(255,255,255,.84); font-size:15.5px; line-height:1.5; padding-top:5px}
+.fuss-unten{margin-top:48px; padding-top:22px; border-top:1px solid var(--linie-hell); display:flex; justify-content:space-between;
+  gap:20px; flex-wrap:wrap; font-size:14px; color:rgba(255,255,255,.55)}
+
+/* ── Mobil ────────────────────────────────────────────────────────────── */
+@media (max-width:1180px){
+  .kopf .leiste{display:none}
+  .held{padding-top:var(--kopf)}
+}
+@media (max-width:1080px){
+  :root{--rand:22px; --kopf:74px}
+  .nav{display:none}
+  .burger{display:flex}
+  .kopf-zeile > .pille{display:none}
+  .nav.offen{display:flex; position:fixed; inset:var(--kopf) 0 0 0; flex-direction:column; align-items:stretch; gap:4px;
+    padding:16px 22px 28px; background:var(--nacht); overflow:auto}
+  .nav.offen > a,.nav.offen .hat-menu > a{min-height:54px; font-size:20px; border-radius:var(--r-klein); padding:0 14px}
+  .nav.offen .drop{position:static; transform:none; opacity:1; visibility:visible; pointer-events:auto; box-shadow:none;
+    border:0; background:transparent; padding:0 0 0 8px; min-width:0; backdrop-filter:none; -webkit-backdrop-filter:none}
+  .nav.offen .pille{display:inline-flex; margin:16px 0 0; min-height:52px}
+  .kacheln{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sig-raster,.achse-kopf,.orte-zeile{grid-template-columns:1fr}
+  .umkreis{margin-inline:0}
+  .achse{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .achse::before{display:none}
+  .fuss-raster{grid-template-columns:1fr 1fr}
+  .punkte,.punkte.vier{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .kacheln,.punkte,.punkte.vier,.kontakt-raster,.achse,.faq-raster{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .duo{grid-template-columns:1fr}
+  .duo.gedreht > .bild{order:0}
+  .faq-seite{position:static}
+  .galerie .reihe{flex-direction:column}
+  /* 🔴 In der Spalte wirkt flex-basis auf die HÖHE — mobil kein Wachsen. */
+  .galerie figure,.galerie .reihe.rest figure{flex:none}
+  .fuss-raster{grid-template-columns:1fr}
+  .leiste-sektion{margin-top:-36px}
+  .held-inhalt{padding-bottom:110px}
+  .runter{display:none}
+  .fuellung{font-size:30px}
+  .umkreis{display:none}
+  .chips{display:flex}
+}
+
+/* ── Barrierefreiheit ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.12s !important}
+  .auf{opacity:1 !important; transform:none !important}
+  .strich-linie b{transform:none !important}
+  .walzen .bahn{display:none}
+  .fuellung .w{opacity:1}
+  .held-medium video{display:none}
+}
+@media (prefers-reduced-transparency:reduce){
+  .kopf,.kopf .leiste,.kopf.fest{background:var(--nacht); backdrop-filter:none}
+  .drop,.cta-karte,.pille.glas{backdrop-filter:none; background:var(--kohle)}
+}
+@media (prefers-contrast:more){ :root{--linie:rgba(20,19,26,.45); --grau:#3C3A46} }
+:focus-visible{outline:3px solid var(--gelb); outline-offset:3px; border-radius:var(--r-klein)}
+.wrap p,.wrap li,.wrap h2,.wrap h3{overflow-wrap:break-word; hyphens:auto}
+/* 🔴 Silbentrennung nur dort, wo sie einen Überlauf verhindert — nie als Optik.
+   „Damit Balkon, Fenster und Vor-dach" stand am 25.09.2026 in der H2 auf holzschutz.html:
+   `hyphens:auto` trennt auch Wörter, die ganz in die nächste Zeile gepasst hätten. Dieselbe
+   Ursache wie „gehal-ten" eine Regel weiter oben, dort punktuell repariert — hier für alle
+   Überschriften. `hyphenate-limit-chars` lässt erst ab 12 Zeichen trennen und verlangt vier
+   Zeichen auf jeder Seite: „Dachflächenfenster" wird noch umbrochen, „Vordach" nicht mehr.
+   Gemessen von `pruefen.py` (Klasse „getrennt") auf jeder Seite in 1440 und 390 px. */
+.wrap h1,.wrap h2,.wrap h3,.wrap h4,.held h1{hyphenate-limit-chars:12 4 4}
+.wrap p,.wrap li{hyphenate-limit-chars:10 4 3}
+.sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+
+/* ===========================================================================
+   Runde 02.10.2026 (Noah nach der Projektbesprechung): mehr Bewegung, Über uns,
+   Einzugsgebiet bis München, Referenzen mit Filter, Tugenden, Formular.
+   =========================================================================== */
+
+/* ── Reveal: Karten mit eigener Hover-Bewegung blenden trotzdem weich ein ─
+   🔴 „bei dem In-Detail-Teil hängt die Animation überall" — die Karte trug die
+   Verzögerung des Reveals (v2–v4: 0,1–0,3 s) auch beim Drübergehen. main.js
+   nimmt die Reveal-Klassen nach dem Einblenden wieder ab; bis dahin gilt das hier. */
+.auf.punkt-karte,.auf.kachel,.auf.tugend,.auf.richtung{transition:opacity .8s var(--weich), transform .8s var(--weich), box-shadow .35s ease, background .35s ease}
+
+/* ── Hero: Zeile für Zeile herein (CSS, läuft auch ohne JavaScript) ────── */
+.held-inhalt > *{animation:rein 1s var(--weich) both}
+.held-inhalt > :nth-child(1){animation-delay:.15s}
+.held-inhalt > :nth-child(2){animation-delay:.28s}
+.held-inhalt > :nth-child(3){animation-delay:.42s}
+.held-inhalt > :nth-child(4){animation-delay:.55s}
+.held-inhalt > :nth-child(5){animation-delay:.68s}
+@keyframes rein{from{opacity:0; transform:translateY(28px)} to{opacity:1; transform:none}}
+.held h1 em{display:inline-block; background:linear-gradient(90deg, var(--gelb), var(--gelb)) 0 92%/0 .12em no-repeat;
+  animation:unterstreichen 1.2s var(--weich) 1s forwards}
+@keyframes unterstreichen{to{background-size:100% .12em}}
+
+/* ── Anstrich-Wischer: das Bild wird beim Einblenden „gestrichen" ────────
+   Eine Farbbahn im Logoverlauf zieht von links nach rechts darüber und gibt das Foto frei. */
+.wisch{position:relative; isolation:isolate}
+.wisch img{clip-path:inset(0 100% 0 0); transition:clip-path 1.1s var(--weich) .25s}
+.wisch::after{content:""; position:absolute; inset:0; z-index:3; pointer-events:none; background:var(--verlauf);
+  transform:scaleX(0); transform-origin:left; border-radius:inherit}
+.wisch.da img{clip-path:inset(0 0 0 0)}
+.wisch.da::after{animation:walze-zug 1.25s var(--weich) .05s both}
+@keyframes walze-zug{0%{transform:scaleX(0); transform-origin:left} 45%{transform:scaleX(1); transform-origin:left}
+  55%{transform:scaleX(1); transform-origin:right} 100%{transform:scaleX(0); transform-origin:right}}
+.duo .bild.wisch:hover img{transform:scale(1.03)}
+.duo .bild img{transition:clip-path 1.1s var(--weich) .25s, transform 1s var(--weich)}
+
+/* ── Über uns (Startseite) ────────────────────────────────────────────── */
+.ueber .duo .bild{position:relative; margin:0}
+.plakette{position:absolute; left:20px; bottom:20px; z-index:2; display:flex; flex-direction:column; gap:2px; padding:12px 16px;
+  border-radius:var(--r-klein); background:rgba(14,13,20,.72); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#fff}
+.plakette b{font:700 15px/1.2 var(--sans)}
+.plakette span{font-size:13.5px; color:rgba(255,255,255,.72)}
+.ueber-kpis{margin-top:clamp(40px,5vw,64px)}
+.ueber .kpi{transition:transform .35s var(--weich), box-shadow .35s ease}
+.ueber .kpi:hover{transform:translateY(-4px); box-shadow:0 30px 60px -36px rgba(14,13,20,.35)}
+
+/* ── Ablauf: die Achse zeichnet sich von links nach rechts ─────────────── */
+.achse.auf{opacity:1; transform:none}
+.achse::before{transform:scaleX(0); transform-origin:left; transition:transform 1.6s var(--weich) .2s}
+.achse.da::before{transform:scaleX(1)}
+.halt-punkt{transition:transform .5s var(--weich)}
+.halt:hover .halt-punkt{transform:scale(1.12) rotate(-8deg)}
+
+/* ── Bänder: das Foto läuft beim Scrollen langsamer mit ────────────────── */
+.band[data-scrub] .hintergrund img{transform:translateY(calc((.5 - var(--p, .5)) * 12%)) scale(1.16); will-change:transform}
+
+/* ── Einsatzgebiet ─────────────────────────────────────────────────────── */
+.orte-seite .kopfzeile{margin-bottom:28px}
+.richtungen{display:grid; gap:12px}
+.richtung{display:grid; grid-template-columns:150px 1fr; gap:16px; align-items:start; padding:18px 20px; border-radius:var(--r); background:var(--hell);
+  transition:background .3s ease, transform .35s var(--weich)}
+.richtung:hover{background:var(--hell-tief); transform:translateX(4px)}
+.richtung-kopf b{display:block; font:800 16px/1.2 var(--sans)}
+.richtung-kopf small{display:block; margin-top:4px; font:700 13px/1.2 var(--sans); letter-spacing:.1em; text-transform:uppercase; color:var(--indigo)}
+.richtung .chip{background:#fff; padding:9px 14px; font-size:14px}
+.orte-frage{margin:22px 0 0; color:var(--grau); font-size:16px}
+.orte-frage a{color:var(--tinte); font-weight:700; text-underline-offset:4px}
+.umkreis{background:radial-gradient(circle at 50% 50%, #fff 0%, var(--hell) 70%)}
+.umkreis .ring{transform:translate(-50%,-50%) scale(.2); opacity:0;
+  transition:transform 1.1s var(--weich) calc(var(--i) * .14s), opacity .8s ease calc(var(--i) * .14s)}
+.umkreis.da .ring{transform:translate(-50%,-50%) scale(1); opacity:1}
+.umkreis .ring span{left:14.6%; bottom:14.6%}
+.umkreis .ort{opacity:0; scale:.2; transition:opacity .5s ease calc(.5s + var(--i) * .07s), scale .6s cubic-bezier(.3,1.6,.5,1) calc(.5s + var(--i) * .07s)}
+.umkreis.da .ort{opacity:1; scale:1}
+.umkreis .ort:hover{z-index:5}
+.umkreis .ort b{text-shadow:0 0 3px #fff,0 0 6px #fff,0 0 10px #fff}
+.umkreis .ort:hover b{color:var(--indigo)}
+.umkreis .ort.mitte::after{content:""; position:absolute; inset:-6px; border-radius:50%; border:2px solid var(--gelb); animation:puls 2.4s ease-out infinite}
+@keyframes puls{from{transform:scale(.6); opacity:1} to{transform:scale(2.6); opacity:0}}
+.umkreis .ort.fern{width:16px; height:16px; background:var(--rot); box-shadow:0 0 0 5px rgba(226,57,44,.2)}
+.umkreis .ort.fern b{font-size:15.5px}
+.umkreis-linie{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+.umkreis-linie line{stroke:var(--rot); stroke-width:.4; stroke-dasharray:1; stroke-dashoffset:1; stroke-linecap:round;
+  transition:stroke-dashoffset 1.6s var(--weich) 1.4s; opacity:.75}
+.umkreis .ring-schild{position:absolute; transform:translate(-50%,-50%); font:700 13px/1 var(--sans); color:var(--grau);
+  background:#fff; padding:4px 9px; border-radius:999px; box-shadow:0 2px 8px -4px rgba(14,13,20,.25); opacity:0; transition:opacity .6s ease 1s}
+.umkreis.da .ring-schild{opacity:1}
+.umkreis.da .umkreis-linie line{stroke-dashoffset:0}
+
+/* ── Referenzen: Filter + ausgerichtetes Raster, das beim Filtern neu fließt ─ */
+.filter{display:flex; flex-wrap:wrap; gap:8px; margin:-8px 0 clamp(28px,3vw,40px); position:sticky; top:calc(var(--kopf) - 6px); z-index:20;
+  padding:10px 0; background:linear-gradient(var(--weiss) 80%, rgba(255,255,255,0))}
+.filter-knopf{display:inline-flex; align-items:center; gap:8px; min-height:46px; padding:0 12px 0 14px; border-radius:999px;
+  border:1px solid var(--linie); background:var(--hell); color:var(--tinte); font:700 14.5px/1 var(--sans); cursor:pointer;
+  transition:background .25s ease, color .25s ease, transform .25s var(--weich), border-color .25s ease}
+.filter-knopf svg{width:16px; height:16px}
+.filter-knopf i{font-style:normal; font:800 12.5px/1 var(--sans); min-width:24px; height:22px; padding:0 7px; display:grid; place-items:center;
+  border-radius:999px; background:#fff; color:var(--grau)}
+.filter-knopf:hover{transform:translateY(-2px); border-color:rgba(20,19,26,.25)}
+.filter-knopf[aria-pressed="true"]{background:var(--tinte); color:#fff; border-color:var(--tinte)}
+.filter-knopf[aria-pressed="true"] i{background:var(--gelb); color:var(--tinte)}
+.ref-raster{display:flex; flex-wrap:wrap; gap:var(--gap)}
+.ref{margin:0; flex:var(--verh) 1 calc(var(--verh) * 250px); display:flex; flex-direction:column}
+/* Mit JavaScript rechnet main.js die Reihen aus (gleich hohe Bilder, nie ein Einzelbild allein in der letzten Reihe). */
+.ref-raster.gerechnet{justify-content:center}
+.ref-raster.gerechnet .ref{flex:none}
+.ref-raster.gerechnet .ref-rest{display:none}
+.ref-rest{flex:999 1 0; height:0}
+.ref.weg{display:none}
+.ref.rein{animation:ref-rein .6s var(--weich) both; animation-delay:calc(var(--i) * 35ms)}
+@keyframes ref-rein{from{opacity:0; transform:translateY(18px) scale(.97)} to{opacity:1; transform:none}}
+.ref-knopf{position:relative; display:block; width:100%; padding:0; border:0; border-radius:var(--r); overflow:hidden; cursor:zoom-in; background:var(--hell)}
+.ref-knopf img{width:100%; height:auto; aspect-ratio:var(--verh); object-fit:cover; transition:transform .9s var(--weich), filter .4s ease}
+.ref-knopf:hover img{transform:scale(1.05)}
+.ref-lupe{position:absolute; right:14px; top:14px; width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
+  background:rgba(14,13,20,.7); color:#fff; opacity:0; transform:scale(.7); transition:opacity .25s ease, transform .3s var(--weich)}
+.ref-lupe svg{width:18px; height:18px}
+.ref-knopf:hover .ref-lupe,.ref-knopf:focus-visible .ref-lupe{opacity:1; transform:none}
+.ref figcaption{padding:12px 6px 0; display:flex; flex-direction:column; gap:2px; min-height:58px}
+.ref figcaption b{font:700 15px/1.3 var(--sans)}
+.ref figcaption span{font-size:13.5px; color:var(--grau)}
+
+/* ── Großansicht (Referenzen + jede Galerie) ───────────────────────────── */
+.grossbild{position:fixed; inset:0; z-index:300; display:grid; grid-template-columns:72px 1fr 72px; grid-template-rows:1fr auto; align-items:center;
+  background:rgba(10,9,14,.94); opacity:0; pointer-events:none; transition:opacity .3s ease}
+.grossbild.offen{opacity:1; pointer-events:auto}
+.grossbild figure{grid-column:2; grid-row:1; margin:0; display:flex; flex-direction:column; align-items:center; gap:14px; padding:24px 0 0}
+.grossbild img{max-width:100%; max-height:calc(100svh - 150px); width:auto; height:auto; border-radius:var(--r-klein); object-fit:contain;
+  transform:scale(.96); transition:transform .4s var(--weich)}
+.grossbild.offen img{transform:none}
+.grossbild figcaption{color:#fff; text-align:center; font:700 16px/1.4 var(--sans)}
+.grossbild figcaption span{display:block; font-weight:500; font-size:14px; color:rgba(255,255,255,.65)}
+.grossbild button{width:52px; height:52px; border-radius:999px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff;
+  display:grid; place-items:center; cursor:pointer; justify-self:center; transition:background .2s ease, transform .2s var(--weich)}
+.grossbild button:hover{background:rgba(255,255,255,.18)}
+.grossbild button:active{transform:scale(.94)}
+.grossbild button svg{width:20px; height:20px}
+.grossbild .zurueck svg{transform:scaleX(-1)}
+.grossbild .zu{position:absolute; top:20px; right:20px}
+.grossbild .zu svg{transform:rotate(45deg)}
+.grossbild .zaehler{grid-column:1 / -1; grid-row:2; justify-self:center; padding:14px 0 22px; color:rgba(255,255,255,.6); font:700 13px/1 var(--sans); letter-spacing:.14em}
+.galerie figure > img{cursor:zoom-in}
+
+/* ── Tugenden ──────────────────────────────────────────────────────────── */
+.tugenden{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:var(--gap)}
+.tugend{position:relative; overflow:hidden; min-height:300px; padding:var(--pad); border-radius:var(--r); background:#fff;
+  display:flex; flex-direction:column; justify-content:flex-end; isolation:isolate;
+  transition:transform .4s var(--weich), box-shadow .4s ease, background .4s ease, color .4s ease}
+.tugend::before{content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--verlauf); transform:scaleX(.25); transform-origin:left;
+  transition:transform .6s var(--weich)}
+.tugend-nr{position:absolute; top:10px; right:18px; z-index:-1; font:800 clamp(96px,9vw,140px)/1 var(--sans); letter-spacing:-.06em;
+  background:var(--verlauf); -webkit-background-clip:text; background-clip:text; color:transparent; opacity:.22; transition:opacity .4s ease, transform .6s var(--weich)}
+.tugend i{width:52px; height:52px; border-radius:var(--r-klein); display:grid; place-items:center; color:#fff; margin-bottom:auto}
+.tugend.indigo i{background:var(--indigo)} .tugend.gelb i{background:var(--gelb); color:var(--tinte)} .tugend.rot i{background:var(--rot)}
+.tugend i svg{width:24px; height:24px}
+.tugend h3{margin:28px 0 8px; font-size:clamp(22px,1.9vw,27px)}
+.tugend p{margin:0; color:var(--grau); font-size:15.5px; hyphens:manual}
+.tugend:hover{transform:translateY(-6px); background:var(--indigo); color:#fff; box-shadow:0 40px 70px -40px rgba(48,36,108,.7)}
+.tugend:hover p{color:rgba(255,255,255,.78)}
+.tugend:hover::before{transform:scaleX(1)}
+.tugend:hover .tugend-nr{opacity:.55; transform:translateY(-6px)}
+
+/* ── Kontaktformular ──────────────────────────────────────────────────── */
+.formular{gap:16px}
+.themen{border:0; margin:4px 0 0; padding:0; min-width:0}
+.themen legend{padding:0; margin-bottom:12px; font:700 13px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase; color:var(--grau)}
+.themen-chips{display:flex; flex-wrap:wrap; gap:8px}
+.thema{position:relative; cursor:pointer}
+.thema input{position:absolute; opacity:0; width:1px; height:1px}
+.thema span{display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 16px 0 13px; border-radius:999px; background:#fff;
+  border:1px solid var(--linie); font:700 14.5px/1 var(--sans); transition:background .2s ease, color .2s ease, border-color .2s ease, transform .2s var(--weich)}
+.thema span svg{width:16px; height:16px; color:var(--indigo); transition:color .2s ease}
+.thema:hover span{transform:translateY(-2px); border-color:rgba(20,19,26,.25)}
+.thema input:checked + span{background:var(--indigo); color:#fff; border-color:var(--indigo)}
+.thema input:checked + span svg{color:var(--gelb)}
+.thema input:focus-visible + span{outline:3px solid var(--gelb); outline-offset:3px}
+.felder-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.feld.schwebe{position:relative; gap:0}
+.feld.schwebe input,.feld.schwebe textarea{padding:24px 16px 10px; min-height:60px}
+.feld.schwebe label{position:absolute; left:17px; top:21px; pointer-events:none; transform-origin:left top;
+  font:600 16px/1 var(--sans); letter-spacing:0; text-transform:none; color:var(--grau);
+  transition:transform .22s var(--weich), color .2s ease, font-size .2s ease}
+.feld.schwebe input:focus + label,.feld.schwebe input:not(:placeholder-shown) + label,
+.feld.schwebe textarea:focus + label,.feld.schwebe textarea:not(:placeholder-shown) + label{transform:translateY(-12px) scale(.8); color:var(--indigo)}
+.feld.schwebe textarea{resize:vertical}
+.feld.schwebe.fehler input,.feld.schwebe.fehler textarea{border-color:var(--rot); box-shadow:0 0 0 4px rgba(226,57,44,.12)}
+.formular .pille.voll{min-height:58px; font-size:16px}
+
+@media (max-width:1080px){
+  .tugenden{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grossbild{grid-template-columns:52px 1fr 52px}
+}
+@media (max-width:760px){
+  .tugenden,.felder-2{grid-template-columns:1fr}
+  .tugend{min-height:240px}
+  .richtung{grid-template-columns:1fr; gap:10px}
+  .ref{flex-basis:calc(var(--verh) * 150px)}
+  .filter{top:calc(var(--kopf) - 4px); flex-wrap:nowrap; overflow-x:auto; margin-inline:calc(-1 * var(--rand)); padding-inline:var(--rand); scrollbar-width:none}
+  .filter::-webkit-scrollbar{display:none}
+  .filter-knopf{flex:0 0 auto}
+  .walzen{min-height:320px}
+  .grossbild{grid-template-columns:1fr 1fr; grid-template-rows:1fr auto auto}
+  .grossbild figure{grid-column:1 / -1}
+  .grossbild .zurueck{grid-column:1; grid-row:2} .grossbild .vor{grid-column:2; grid-row:2}
+  .grossbild .zaehler{grid-row:3}
+}
+@media (prefers-reduced-motion:reduce){
+  .held-inhalt > *{animation:none}
+  .wisch img{clip-path:none !important}
+  .wisch::after{display:none}
+  .achse::before{transform:none}
+  .umkreis .ring,.umkreis .ort{opacity:1; scale:1; transform:translate(-50%,-50%)}
+  .umkreis .ort{transform:translate(-50%,-50%)}
+  .umkreis-linie line{stroke-dashoffset:0}
+  .band[data-scrub] .hintergrund img{transform:none}
+}

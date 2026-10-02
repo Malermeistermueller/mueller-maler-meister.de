@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mueller-maler-meister.de/sitemap.xml
