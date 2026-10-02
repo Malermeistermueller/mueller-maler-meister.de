@@ -206,7 +206,7 @@ section{position:relative}
 /* 🔴 Unterseiten-Hero kleiner: „Beschriftungen von Hand / in Weilheim in Oberbayern." lief
    bei 96 px in drei Zeilen und ließ „Oberbayern." allein stehen (Prüfer: Waise). */
 .held.klein h1{font-size:clamp(38px,5vw,72px); max-width:22ch}
-.held.recht{min-height:52vh}
+.held.recht{min-height:clamp(260px,38vh,420px)}
 .held-medium{position:absolute; inset:0; z-index:0}
 .held-medium video,.held-medium img{width:100%; height:100%; object-fit:cover;
   filter:saturate(.92) contrast(1.04); transform:scale(1.04); animation:held-zoom 14s ease-out forwards}
@@ -241,7 +241,7 @@ section{position:relative}
 .kachel:hover{transform:translateY(-6px); box-shadow:0 40px 70px -36px rgba(14,13,20,.7)}
 .kachel img{width:100%; height:100%; object-fit:cover; filter:saturate(.95); transition:transform 1s var(--weich)}
 .kachel:hover img{transform:scale(1.06)}
-.kachel::after{content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(14,13,20,.92) 0%, rgba(14,13,20,.35) 48%, transparent 100%)}
+.kachel::after{content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(14,13,20,.95) 0%, rgba(14,13,20,.7) 38%, rgba(14,13,20,.15) 72%, transparent 100%)}
 .kachel::before{content:""; position:absolute; left:0; right:0; bottom:0; height:5px; z-index:3;
   transform:scaleX(.35); transform-origin:left; transition:transform .5s var(--weich)}
 .kachel.indigo::before{background:var(--indigo-hell)}
@@ -256,7 +256,7 @@ section{position:relative}
   backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); margin-bottom:8px}
 .kachel-text i svg{width:20px; height:20px}
 .kachel-text b{font:800 clamp(19px,1.5vw,23px)/1.15 var(--sans); letter-spacing:-.02em}
-.kachel-text small{font-size:14px; color:rgba(255,255,255,.72); line-height:1.4; min-height:2.8em}   /* zwei Zeilen reserviert → Titel aller Kacheln auf einer Höhe */
+.kachel-text small{font-size:14px; color:rgba(255,255,255,.86); line-height:1.4; min-height:2.8em}   /* zwei Zeilen reserviert → Titel aller Kacheln auf einer Höhe */
 .kachel-text em{display:inline-flex; align-items:center; gap:6px; font:700 13px/1 var(--sans); letter-spacing:.12em; text-transform:uppercase;
   color:var(--gelb); margin-top:8px; opacity:0; transform:translateY(6px); transition:opacity .3s ease, transform .3s var(--weich)}
 .kachel-text em svg{width:14px; height:14px}
@@ -566,9 +566,11 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .held-inhalt > :nth-child(4){animation-delay:.55s}
 .held-inhalt > :nth-child(5){animation-delay:.68s}
 @keyframes rein{from{opacity:0; transform:translateY(28px)} to{opacity:1; transform:none}}
-.held h1 em{display:inline-block; background:linear-gradient(90deg, var(--gelb), var(--gelb)) 0 92%/0 .12em no-repeat;
+.held h1 em{display:inline; background:linear-gradient(90deg, var(--gelb), var(--gelb)) 0 100%/0 .07em no-repeat;
+  -webkit-box-decoration-break:clone; box-decoration-break:clone; padding-bottom:.06em;
   animation:unterstreichen 1.2s var(--weich) 1s forwards}
-@keyframes unterstreichen{to{background-size:100% .12em}}
+/* 🔴 Zeile für Zeile und unter den Unterlängen — mehrzeilig strich die Linie sonst „g" und „y" durch und lief über das Textende (Handy-Prüfung 02.10.2026) */
+@keyframes unterstreichen{to{background-size:100% .07em}}
 
 /* ── Anstrich-Wischer: das Bild wird beim Einblenden „gestrichen" ────────
    Eine Farbbahn im Logoverlauf zieht von links nach rechts darüber und gibt das Foto frei. */
@@ -668,6 +670,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .ref figcaption{padding:12px 6px 0; display:flex; flex-direction:column; gap:2px; min-height:58px}
 .ref figcaption b{font:700 15px/1.3 var(--sans)}
 .ref figcaption span{font-size:13.5px; color:var(--grau)}
+.ref figcaption b,.ref figcaption span{overflow-wrap:anywhere; hyphens:auto}
 
 /* ── Großansicht (Referenzen + jede Galerie) ───────────────────────────── */
 .grossbild{position:fixed; inset:0; z-index:300; display:grid; grid-template-columns:72px 1fr 72px; grid-template-rows:1fr auto; align-items:center;
@@ -740,12 +743,19 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
   .grossbild{grid-template-columns:52px 1fr 52px}
 }
 @media (max-width:760px){
+  .held.klein h1{font-size:clamp(30px,8.6vw,40px)}
   .tugenden,.felder-2{grid-template-columns:1fr}
   .tugend{min-height:240px}
   .richtung{grid-template-columns:1fr; gap:10px}
-  .ref{flex-basis:calc(var(--verh) * 150px)}
+  .ref-raster.handy{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .ref-raster.handy .ref-rest{display:none}
+  .ref-raster.handy .ref-knopf img{aspect-ratio:1; object-fit:cover}
+  .ref-raster.handy .ref figcaption{min-height:0; padding:8px 2px 0}
+  .ref-raster.handy .ref figcaption b{font-size:14px}
+  .ref-raster.handy .ref figcaption span{font-size:13px}
   .filter{top:calc(var(--kopf) - 4px); flex-wrap:nowrap; overflow-x:auto; margin-inline:calc(-1 * var(--rand)); padding-inline:var(--rand); scrollbar-width:none}
   .filter::-webkit-scrollbar{display:none}
+  .filter{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent); mask-image:linear-gradient(90deg,#000 82%,transparent); padding-right:48px}
   .filter-knopf{flex:0 0 auto}
   .walzen{min-height:320px}
   .grossbild{grid-template-columns:1fr 1fr; grid-template-rows:1fr auto auto}

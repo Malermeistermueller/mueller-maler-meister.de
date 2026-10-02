@@ -175,7 +175,12 @@
   const ausrichten = () => {
     if (!raster) return;
     const W = raster.clientWidth, g = parseFloat(getComputedStyle(raster).columnGap) || 16;
-    const ziel = W < 700 ? 170 : 270;
+    // 🔴 Handy: ruhiges Zweier-Raster (gleich große Vorschau, ganzes Bild in der Großansicht) — ausgerichtete
+    // Reihen machten Hochformate 88 px schmal und die Unterschrift fünfzeilig (Handy-Prüfung 02.10.2026).
+    const handy = W < 700;
+    raster.classList.toggle('handy', handy);
+    if (handy) { refs.forEach((r) => { r.style.width = ''; }); raster.classList.remove('gerechnet'); return; }
+    const ziel = 270;
     const sicht = refs.filter((r) => !r.classList.contains('weg'));
     const reihen = []; let lauf = [], summe = 0;
     sicht.forEach((r) => {
