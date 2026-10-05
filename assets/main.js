@@ -211,7 +211,7 @@
   /* ── Großansicht: jedes Referenz- und Galeriebild mit einem Klick groß ── */
   const pfeil = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15M13.5 6l6 6-6 6"/></svg>';
   const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"/></svg>';
-  const quellen = [...document.querySelectorAll('.ref-knopf img, .galerie figure > img')];
+  const quellen = [...document.querySelectorAll('.ref-knopf img, .ref img.ref-mehr, .galerie figure > img')];
   if (quellen.length) {
     const box = document.createElement('div');
     box.className = 'grossbild'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Bild groß ansehen');
@@ -220,7 +220,8 @@
     document.body.appendChild(box);
     const gImg = box.querySelector('img'), gText = box.querySelector('figcaption'), gZahl = box.querySelector('.zaehler');
     let liste = [], pos = 0, vorher = null;
-    const sichtbar = () => quellen.filter((i) => i.offsetParent !== null);
+    // Ein Projekt = eine Kachel; seine weiteren Fotos sind versteckt und gehören trotzdem in die Großansicht.
+    const sichtbar = () => quellen.filter((i) => { const f = i.closest('.ref'); return f ? !f.classList.contains('weg') : i.offsetParent !== null; });
     const zeige = () => {
       const q = liste[pos];
       gImg.removeAttribute('srcset');
@@ -236,7 +237,7 @@
     };
     const zu = () => { box.classList.remove('offen'); document.documentElement.classList.remove('menu-offen'); vorher?.focus(); };
     const schritt = (d) => { pos = (pos + d + liste.length) % liste.length; zeige(); };
-    quellen.forEach((img) => (img.closest('.ref-knopf') || img).addEventListener('click', () => auf(img)));
+    quellen.filter((img) => !img.classList.contains('ref-mehr')).forEach((img) => (img.closest('.ref-knopf') || img).addEventListener('click', () => auf(img)));
     box.querySelector('.vor').addEventListener('click', () => schritt(1));
     box.querySelector('.zurueck').addEventListener('click', () => schritt(-1));
     box.querySelector('.zu').addEventListener('click', zu);
