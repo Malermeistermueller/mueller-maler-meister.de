@@ -151,6 +151,18 @@
   });
 
   const formPost = document.querySelector('form.formular:not([data-mailto])');
+  /* Rückmeldung des Formular-Workers: ?gesendet=1 oder ?fehler=1 (Noah, 05.10.2026: „muss ankommen“).
+     Bei einem Fehler stehen Telefon und Mail direkt da — eine Anfrage darf nie still verloren gehen. */
+  if (formPost) {
+    const q = new URLSearchParams(location.search), st = formPost.querySelector('.formular-status');
+    if (st && (q.has('gesendet') || q.has('fehler'))) {
+      const ok = q.has('gesendet');
+      st.hidden = false; st.classList.add(ok ? 'gut' : 'schlecht');
+      st.innerHTML = ok ? 'Danke — Ihre Anfrage ist angekommen. Wir melden uns in der Regel am selben Tag.'
+        : 'Das hat leider nicht geklappt. Rufen Sie uns an unter <a href="tel:+4988114667">0881 4667</a> oder schreiben Sie an <a href="mailto:malerei.mueller@t-online.de">malerei.mueller@t-online.de</a>.';
+      history.replaceState(null, '', location.pathname + '#anfrage');
+    }
+  }
   if (formPost) formPost.addEventListener('submit', (e) => { if (!pruefen(formPost)) e.preventDefault(); });
 
   /* ── Referenzen: Filter oben, ein Klick zeigt nur diesen Bereich ─────────

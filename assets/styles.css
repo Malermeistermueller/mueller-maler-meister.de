@@ -779,3 +779,10 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
   .umkreis-linie line{stroke-dashoffset:0}
   .band[data-scrub] .hintergrund img{transform:none}
 }
+
+/* Formular: Honigtopf für Bots (unsichtbar) + Rückmeldung nach dem Senden (05.10.2026) */
+.formular .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+.formular-status{margin:4px 0 2px; padding:14px 16px; border-radius:14px; font-weight:600; line-height:1.45}
+.formular-status.gut{background:#e8f5ec; color:#14532d}
+.formular-status.schlecht{background:#fdecec; color:#7f1d1d}
+.formular-status a{color:inherit; text-decoration:underline}
