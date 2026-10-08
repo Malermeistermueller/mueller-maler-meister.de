@@ -263,3 +263,19 @@
     box.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) schritt(dx < 0 ? 1 : -1); x0 = null; });
   }
 })();
+
+/* Seitenaufrufe zählen — ohne Cookies, ohne Speicher im Browser, ohne IP und ohne Kennung (Noah, 08.10.2026).
+   Eigener Zähler der HandwerksManufaktur (Worker seiten-zaehler); beschrieben in der Datenschutzerklärung. */
+(() => {
+  if (!/(^|\.)mueller-maler-meister\.de$/.test(location.hostname)) return;
+  let r = 'direkt';
+  try {
+    const q = new URLSearchParams(location.search);
+    if (q.get('utm_source')) r = 'utm:' + q.get('utm_source');
+    else if (document.referrer) { const h = new URL(document.referrer).hostname.replace(/^www\./, ''); if (h && h !== location.hostname) r = h; }
+  } catch (e) {}
+  const d = JSON.stringify({ t: 'v', s: location.hostname, p: location.pathname, g: innerWidth < 768 ? 'm' : 'd',
+    id: Math.random().toString(36).slice(2, 12), r });
+  const Z = 'https://seiten-zaehler.handwerksmanufaktur.workers.dev/z';
+  try { if (!(navigator.sendBeacon && navigator.sendBeacon(Z, new Blob([d], { type: 'text/plain' })))) fetch(Z, { method: 'POST', body: d, keepalive: true, mode: 'no-cors' }); } catch (e) {}
+})();
