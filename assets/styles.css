@@ -40,13 +40,13 @@
   --r-klein:12px;
   /* 🔴 EIN Sektionsabstand; Abwechslung kommt aus den Flächenfarben, nie aus wechselnden
      Abständen (Regelwerk: 100–110 px). Gemessen waren 72 · 115 · 130 · 144 · 170 px. */
-  --sekt:clamp(72px,7.5vw,108px);
+  --sekt:clamp(72px,7.5vw,104px);
   --sekt-eng:clamp(40px,4vw,56px);
   --rand-aussen:16px;   /* Luft zwischen einem Band und dem Fensterrand */
   --pad:28px;          /* Innenpolster jeder Karte */
   --gap:16px;          /* Abstand in jedem Raster */
   --kopf:82px;
-  --leiste:38px;
+  --leiste:46px;
   --weich:cubic-bezier(.2,.65,.2,1);
 }
 [data-farbe="gelb"]{ --akzent:var(--gelb) }
@@ -56,18 +56,18 @@
 html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
 html.menu-offen{overflow:hidden}
 body{margin:0; background:var(--weiss); color:var(--tinte); font:400 17px/1.6 var(--sans);
-  -webkit-font-smoothing:antialiased; overflow-x:clip}
+  -webkit-font-smoothing:antialiased; overflow-x:clip; letter-spacing:.01em}
 img{max-width:100%; height:auto; display:block}
 a{color:inherit}
 [hidden]{display:none !important}
 ::selection{background:var(--gelb); color:var(--tinte)}
 
 /* ── Typo ─────────────────────────────────────────────────────────────── */
-h1,h2,h3,h4{margin:0; font-weight:800; letter-spacing:-.03em; text-wrap:balance}
+h1,h2,h3,h4{margin:0; font-weight:800; letter-spacing:-.03em; text-wrap:balance; hyphens:manual; -webkit-hyphens:manual}
 h1{font-size:clamp(44px,6.4vw,96px); line-height:1.0}
 h2{font-size:clamp(32px,4.2vw,60px); line-height:1.05}
 h3{font-size:clamp(20px,1.7vw,24px); line-height:1.25; letter-spacing:-.015em}
-.h3-gross{font-size:clamp(26px,2.6vw,36px)}
+.h3-gross{font-size:clamp(26px,2.6vw,36px); line-height:1.19}
 h1 em,h2 em{font-style:normal; color:var(--gelb)}
 p{margin:0 0 1.1em; text-wrap:pretty}
 .gross{font-size:clamp(17px,1.35vw,20px); line-height:1.55}
@@ -106,23 +106,23 @@ section{position:relative}
 
 /* ── Der Farbstrich ───────────────────────────────────────────────────── */
 .strich-linie{display:flex; height:4px; border-radius:999px; overflow:hidden; width:100%}
-.strich-linie b{flex:1; transform:scaleX(0); transform-origin:left; transition:transform .7s var(--weich)}
+.strich-linie b{flex:1; transform:scaleX(0); transform-origin:left; transition:transform .4s var(--weich)}
 .strich-linie b:nth-child(1){background:var(--indigo-hell)}
-.strich-linie b:nth-child(2){background:var(--gelb); transition-delay:.18s}
-.strich-linie b:nth-child(3){background:var(--rot); transition-delay:.36s}
+.strich-linie b:nth-child(2){background:var(--gelb); transition-delay:.1s}
+.strich-linie b:nth-child(3){background:var(--rot); transition-delay:.2s}
 .da .strich-linie b,.fuss .strich-linie b,.quelle .strich-linie b{transform:scaleX(1)}
 .walze{position:fixed; inset:0 0 auto 0; height:4px; z-index:200; pointer-events:none}
 .walze b{display:block; height:100%; background:var(--verlauf); transform:scaleX(0); transform-origin:left}
 
 /* ── Kopf: Infoleiste + Navigation, dunkles Glas ──────────────────────── */
 .kopf{position:fixed; inset:0 0 auto 0; z-index:120; color:#fff;
-  transition:transform .45s var(--weich), background .35s ease}
+  transition:transform .4s var(--weich), background .35s ease}
 .kopf .leiste{height:var(--leiste); font-size:13.5px; color:rgba(255,255,255,.72);
-  background:rgba(14,13,20,.55); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  background:rgba(14,13,20,.72); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
   border-bottom:1px solid var(--linie-hell); transition:height .3s ease, opacity .3s ease; overflow:hidden}
 .kopf .leiste .wrap{display:flex; justify-content:space-between; align-items:center; height:100%; gap:20px}
 .leiste-kontakt{display:flex; gap:22px}
-.leiste-kontakt a{display:inline-flex; align-items:center; gap:7px; text-decoration:none; color:#fff}
+.leiste-kontakt a{display:inline-flex; align-items:center; gap:7px; min-height:44px; text-decoration:none; color:#fff}
 .leiste-kontakt svg{width:14px; height:14px; opacity:.8}
 .kopf.fest .leiste{height:0; opacity:0; border:0}
 .kopf-zeile{display:flex; align-items:center; gap:24px; height:var(--kopf)}
@@ -163,7 +163,7 @@ section{position:relative}
 .drop .punkt svg{width:18px; height:18px}
 .drop b{display:block; font:700 15px/1.3 var(--sans)}
 .drop span span{display:block; font-size:13.5px; line-height:1.45; color:rgba(255,255,255,.62); margin-top:2px}
-.drop .alle{justify-content:space-between; align-items:center; font:700 14px/1 var(--sans); color:var(--gelb);
+.drop .alle{min-height:44px; justify-content:space-between; align-items:center; font:700 14px/1 var(--sans); color:var(--gelb);
   border-top:1px solid var(--linie-hell); border-radius:0; margin-top:6px; padding:16px 12px 8px}
 .drop .alle svg{width:16px; height:16px}
 
@@ -222,8 +222,10 @@ section{position:relative}
 .held .strich-linie{width:min(360px,60%); height:5px}
 .held .unter{color:rgba(255,255,255,.84); max-width:54ch; margin:0; font-size:clamp(17px,1.35vw,20px)}
 .held .knoepfe{margin-top:6px}
-.runter{position:absolute; right:clamp(24px,4vw,64px); bottom:clamp(120px,14vw,180px); z-index:3; width:28px; height:48px;
-  border:2px solid rgba(255,255,255,.4); border-radius:999px; display:grid; justify-content:center; padding-top:8px}
+.runter{position:absolute; right:calc(clamp(24px,4vw,64px) - 8px); bottom:clamp(120px,14vw,180px); z-index:3; width:44px; height:48px;
+  display:grid; justify-content:center; padding-top:8px}
+.runter::before{content:""; position:absolute; left:8px; top:0; width:28px; height:48px; box-sizing:border-box;
+  border:2px solid rgba(255,255,255,.4); border-radius:999px}
 .runter span{width:4px; height:10px; border-radius:999px; background:var(--gelb); animation:runter 1.8s ease-in-out infinite}
 @keyframes runter{0%,100%{transform:translateY(0); opacity:1} 60%{transform:translateY(16px); opacity:.2}}
 .held.klein .runter{display:none}
@@ -237,13 +239,13 @@ section{position:relative}
 .kacheln{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--gap)}
 .kachel{position:relative; display:block; aspect-ratio:4/3; border-radius:var(--r); overflow:hidden; text-decoration:none;
   background:var(--kohle); color:#fff; box-shadow:0 30px 60px -36px rgba(14,13,20,.55);
-  transition:transform .45s var(--weich), box-shadow .45s ease}
+  transition:transform .35s var(--weich), box-shadow .35s ease}
 .kachel:hover{transform:translateY(-6px); box-shadow:0 40px 70px -36px rgba(14,13,20,.7)}
-.kachel img{width:100%; height:100%; object-fit:cover; filter:saturate(.95); transition:transform 1s var(--weich)}
+.kachel img{width:100%; height:100%; object-fit:cover; filter:saturate(.95); transition:transform .6s var(--weich)}
 .kachel:hover img{transform:scale(1.06)}
 .kachel::after{content:""; position:absolute; inset:0; background:linear-gradient(to top, rgba(14,13,20,.95) 0%, rgba(14,13,20,.7) 38%, rgba(14,13,20,.15) 72%, transparent 100%)}
 .kachel::before{content:""; position:absolute; left:0; right:0; bottom:0; height:5px; z-index:3;
-  transform:scaleX(.35); transform-origin:left; transition:transform .5s var(--weich)}
+  transform:scaleX(.35); transform-origin:left; transition:transform .4s var(--weich)}
 .kachel.indigo::before{background:var(--indigo-hell)}
 .kachel.gelb::before{background:var(--gelb)}
 .kachel.rot::before{background:var(--rot)}
@@ -263,7 +265,7 @@ section{position:relative}
 .kachel:hover .kachel-text em{opacity:1; transform:none}
 
 /* ── Reveal ───────────────────────────────────────────────────────────── */
-.auf{opacity:0; transform:translateY(22px); transition:opacity .8s var(--weich), transform .8s var(--weich)}
+.auf{opacity:0; transform:translateY(22px); transition:opacity .4s var(--weich), transform .4s var(--weich)}
 .auf.da{opacity:1; transform:none}
 .auf.v2{transition-delay:.1s} .auf.v3{transition-delay:.2s} .auf.v4{transition-delay:.3s}
 
@@ -351,7 +353,7 @@ section{position:relative}
    790 px hoch. Mittig gesetzt ist dieselbe Reihe eine bewusste Gruppe. */
 .galerie .reihe.rest{justify-content:center}
 .galerie figure > img{width:100%; height:auto; aspect-ratio:var(--verh,1.33); flex:none; object-fit:cover;
-  border-radius:var(--r); transition:transform .9s var(--weich)}
+  border-radius:var(--r); transition:transform .6s var(--weich)}
 .galerie figure:hover img{transform:scale(1.02)}
 .galerie figcaption{padding:12px 6px 0; min-height:60px; display:flex; flex-direction:column; gap:2px}
 .galerie figcaption b{font:700 15px/1.3 var(--sans)}
@@ -428,7 +430,7 @@ section{position:relative}
 .liste li{background:#fff; border-radius:var(--r)}
 .flaeche-weiss .liste li{background:var(--hell)}
 .liste details{padding:var(--pad)}
-.liste summary{cursor:pointer; font:700 18px/1.4 var(--sans); letter-spacing:-.01em; list-style:none; display:flex; gap:18px; align-items:flex-start}
+.liste summary{padding-block:9px; margin-block:-9px; cursor:pointer; font:700 18px/1.4 var(--sans); letter-spacing:-.01em; list-style:none; display:flex; gap:18px; align-items:flex-start}
 .liste summary::-webkit-details-marker{display:none}
 .liste .f-text{flex:1 1 auto; text-wrap:pretty}
 /* Höhe = Zeilenhöhe der Frage (18 × 1.4 ≈ 25px) — Marke und erste Zeile teilen sich dieselbe Mitte */
@@ -468,7 +470,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .fuss-raster{display:grid; grid-template-columns:1.4fr 1fr .8fr 1.2fr; gap:36px}
 .fuss-text{margin:20px 0 0; max-width:34ch; color:rgba(255,255,255,.66); font-size:15px}
 .fuss h4{font:700 13px/1 var(--sans); letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.5); margin:0 0 18px}
-.fuss a{display:inline-flex; min-height:34px; align-items:center; color:rgba(255,255,255,.84); text-decoration:none; font-size:15.5px}
+.fuss a{display:inline-flex; min-height:44px; margin-block:-5px; align-items:center; color:rgba(255,255,255,.84); text-decoration:none; font-size:15.5px}
 .fuss a:hover{color:var(--gelb)}
 .fuss ul{list-style:none; margin:0; padding:0}
 .fuss-kontakt li{display:flex; gap:11px; align-items:flex-start}
@@ -483,7 +485,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
   .held{padding-top:var(--kopf)}
 }
 @media (max-width:1080px){
-  :root{--rand:22px; --kopf:74px}
+  :root{--rand:22px; --kopf:72px}
   .nav{display:none}
   .burger{display:flex}
   .kopf-zeile > .pille{display:none}
@@ -535,7 +537,9 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 }
 @media (prefers-contrast:more){ :root{--linie:rgba(20,19,26,.45); --grau:#3C3A46} }
 :focus-visible{outline:3px solid var(--gelb); outline-offset:3px; border-radius:var(--r-klein)}
-.wrap p,.wrap li,.wrap h2,.wrap h3{overflow-wrap:break-word; hyphens:auto}
+.wrap p,.wrap li,.wrap h2,.wrap h3{overflow-wrap:break-word}
+.wrap p,.wrap li{hyphens:auto}
+.wrap h1,.wrap h2,.wrap h3,.wrap h4,.held h1{hyphens:manual; -webkit-hyphens:manual}
 /* 🔴 Silbentrennung nur dort, wo sie einen Überlauf verhindert — nie als Optik.
    „Damit Balkon, Fenster und Vor-dach" stand am 25.09.2026 in der H2 auf holzschutz.html:
    `hyphens:auto` trennt auch Wörter, die ganz in die nächste Zeile gepasst hätten. Dieselbe
@@ -556,7 +560,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
    🔴 „bei dem In-Detail-Teil hängt die Animation überall" — die Karte trug die
    Verzögerung des Reveals (v2–v4: 0,1–0,3 s) auch beim Drübergehen. main.js
    nimmt die Reveal-Klassen nach dem Einblenden wieder ab; bis dahin gilt das hier. */
-.auf.punkt-karte,.auf.kachel,.auf.tugend,.auf.richtung{transition:opacity .8s var(--weich), transform .8s var(--weich), box-shadow .35s ease, background .35s ease}
+.auf.punkt-karte,.auf.kachel,.auf.tugend,.auf.richtung{transition:opacity .4s var(--weich), transform .4s var(--weich), box-shadow .35s ease, background .35s ease}
 
 /* ── Hero: Zeile für Zeile herein (CSS, läuft auch ohne JavaScript) ────── */
 .held-inhalt > *{animation:rein 1s var(--weich) both}
@@ -575,7 +579,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 /* ── Anstrich-Wischer: das Bild wird beim Einblenden „gestrichen" ────────
    Eine Farbbahn im Logoverlauf zieht von links nach rechts darüber und gibt das Foto frei. */
 .wisch{position:relative; isolation:isolate}
-.wisch img{clip-path:inset(0 100% 0 0); transition:clip-path 1.1s var(--weich) .25s}
+.wisch img{clip-path:inset(0 100% 0 0); transition:clip-path .6s var(--weich) .25s}
 .wisch::after{content:""; position:absolute; inset:0; z-index:3; pointer-events:none; background:var(--verlauf);
   transform:scaleX(0); transform-origin:left; border-radius:inherit}
 .wisch.da img{clip-path:inset(0 0 0 0)}
@@ -583,7 +587,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 @keyframes walze-zug{0%{transform:scaleX(0); transform-origin:left} 45%{transform:scaleX(1); transform-origin:left}
   55%{transform:scaleX(1); transform-origin:right} 100%{transform:scaleX(0); transform-origin:right}}
 .duo .bild.wisch:hover img{transform:scale(1.03)}
-.duo .bild img{transition:clip-path 1.1s var(--weich) .25s, transform 1s var(--weich)}
+.duo .bild img{transition:clip-path .6s var(--weich) .25s, transform .6s var(--weich)}
 
 /* ── Über uns (Startseite) ────────────────────────────────────────────── */
 .ueber .duo .bild{position:relative; margin:0}
@@ -597,9 +601,9 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 
 /* ── Ablauf: die Achse zeichnet sich von links nach rechts ─────────────── */
 .achse.auf{opacity:1; transform:none}
-.achse::before{transform:scaleX(0); transform-origin:left; transition:transform 1.6s var(--weich) .2s}
+.achse::before{transform:scaleX(0); transform-origin:left; transition:transform .4s var(--weich) .2s}
 .achse.da::before{transform:scaleX(1)}
-.halt-punkt{transition:transform .5s var(--weich)}
+.halt-punkt{transition:transform .4s var(--weich)}
 .halt:hover .halt-punkt{transform:scale(1.12) rotate(-8deg)}
 
 /* ── Bänder: das Foto läuft beim Scrollen langsamer mit ────────────────── */
@@ -618,10 +622,10 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .orte-frage a{color:var(--tinte); font-weight:700; text-underline-offset:4px}
 .umkreis{background:radial-gradient(circle at 50% 50%, #fff 0%, var(--hell) 70%)}
 .umkreis .ring{transform:translate(-50%,-50%) scale(.2); opacity:0;
-  transition:transform 1.1s var(--weich) calc(var(--i) * .14s), opacity .8s ease calc(var(--i) * .14s)}
+  transition:transform .4s var(--weich) calc(var(--i) * .14s), opacity .4s ease calc(var(--i) * .14s)}
 .umkreis.da .ring{transform:translate(-50%,-50%) scale(1); opacity:1}
 .umkreis .ring span{left:14.6%; bottom:14.6%}
-.umkreis .ort{opacity:0; scale:.2; transition:opacity .5s ease calc(.5s + var(--i) * .07s), scale .6s cubic-bezier(.3,1.6,.5,1) calc(.5s + var(--i) * .07s)}
+.umkreis .ort{opacity:0; scale:.2; transition:opacity .4s ease calc(.5s + var(--i) * .07s), scale .4s cubic-bezier(.3,1.6,.5,1) calc(.5s + var(--i) * .07s)}
 .umkreis.da .ort{opacity:1; scale:1}
 .umkreis .ort:hover{z-index:5}
 .umkreis .ort b{text-shadow:0 0 3px #fff,0 0 6px #fff,0 0 10px #fff}
@@ -632,9 +636,9 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .umkreis .ort.fern b{font-size:15.5px}
 .umkreis-linie{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
 .umkreis-linie line{stroke:var(--rot); stroke-width:.4; stroke-dasharray:1; stroke-dashoffset:1; stroke-linecap:round;
-  transition:stroke-dashoffset 1.6s var(--weich) 1.4s; opacity:.75}
+  transition:stroke-dashoffset .4s var(--weich) 1.4s; opacity:.75}
 .umkreis .ring-schild{position:absolute; transform:translate(-50%,-50%); font:700 13px/1 var(--sans); color:var(--grau);
-  background:#fff; padding:4px 9px; border-radius:999px; box-shadow:0 2px 8px -4px rgba(14,13,20,.25); opacity:0; transition:opacity .6s ease 1s}
+  background:#fff; padding:4px 9px; border-radius:999px; box-shadow:0 2px 8px -4px rgba(14,13,20,.25); opacity:0; transition:opacity .4s ease 1s}
 .umkreis.da .ring-schild{opacity:1}
 .umkreis.da .umkreis-linie line{stroke-dashoffset:0}
 
@@ -661,7 +665,7 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .ref.rein{animation:ref-rein .6s var(--weich) both; animation-delay:calc(var(--i) * 35ms)}
 @keyframes ref-rein{from{opacity:0; transform:translateY(18px) scale(.97)} to{opacity:1; transform:none}}
 .ref-knopf{position:relative; display:block; width:100%; padding:0; border:0; border-radius:var(--r); overflow:hidden; cursor:zoom-in; background:var(--hell)}
-.ref-knopf img{width:100%; height:auto; aspect-ratio:var(--verh); object-fit:cover; transition:transform .9s var(--weich), filter .4s ease}
+.ref-knopf img{width:100%; height:auto; aspect-ratio:var(--verh); object-fit:cover; transition:transform .6s var(--weich), filter .4s ease}
 .ref-knopf:hover img{transform:scale(1.05)}
 .ref-lupe{position:absolute; right:14px; top:14px; width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
   background:rgba(14,13,20,.7); color:#fff; opacity:0; transform:scale(.7); transition:opacity .25s ease, transform .3s var(--weich)}
@@ -705,9 +709,9 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
   display:flex; flex-direction:column; justify-content:flex-end; isolation:isolate;
   transition:transform .4s var(--weich), box-shadow .4s ease, background .4s ease, color .4s ease}
 .tugend::before{content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--verlauf); transform:scaleX(.25); transform-origin:left;
-  transition:transform .6s var(--weich)}
+  transition:transform .4s var(--weich)}
 .tugend-nr{position:absolute; top:10px; right:18px; z-index:-1; font:800 clamp(96px,9vw,140px)/1 var(--sans); letter-spacing:-.06em;
-  background:var(--verlauf); -webkit-background-clip:text; background-clip:text; color:transparent; opacity:.22; transition:opacity .4s ease, transform .6s var(--weich)}
+  background:var(--verlauf); -webkit-background-clip:text; background-clip:text; color:transparent; opacity:.22; transition:opacity .4s ease, transform .4s var(--weich)}
 .tugend i{width:52px; height:52px; border-radius:var(--r-klein); display:grid; place-items:center; color:#fff; margin-bottom:auto}
 .tugend.indigo i{background:var(--indigo)} .tugend.gelb i{background:var(--gelb); color:var(--tinte)} .tugend.rot i{background:var(--rot)}
 .tugend i svg{width:24px; height:24px}
@@ -786,3 +790,19 @@ a.zeile:hover span span{text-decoration:underline; text-underline-offset:4px}
 .formular-status.gut{background:#e8f5ec; color:#14532d}
 .formular-status.schlecht{background:#fdecec; color:#7f1d1d}
 .formular-status a{color:inherit; text-decoration:underline}
+
+
+/* ===========================================================================
+   Apple-Designregeln (Noah, 21.10.2026) — gemessen von system/apps/audit/os_regeln_pruefen.mjs
+   Druck-Feedback auf pointer-down · Übergänge ≤ 0,4 s (Bilder ≤ 0,6 s) · Tracking groß negativ,
+   klein positiv (Body +.01em) · Tippziele ≥ 44 px · Überschriften nie automatisch trennen.
+   =========================================================================== */
+button{letter-spacing:inherit}
+a:active,summary:active,button:active,.thema:active span{opacity:.7; transition-duration:.1s}
+.pille:active,.kachel:active,.punkt-karte:active,.tugend:active,.kpi:active,.richtung:active,.filter-knopf:active,.thema:active span,.burger:active{
+  opacity:1; transform:scale(.97); transition-duration:.1s}
+.ref-knopf:active{opacity:1; transform:scale(.98); transition-duration:.1s}
+.liste summary:active{opacity:.7}
+@media (prefers-reduced-motion:reduce){
+  .pille:active,.kachel:active,.punkt-karte:active,.tugend:active,.kpi:active,.richtung:active,.filter-knopf:active,.thema:active span,.burger:active,.ref-knopf:active{transform:none; opacity:.7}
+}
