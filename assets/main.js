@@ -159,7 +159,7 @@
       const ok = q.has('gesendet');
       st.hidden = false; st.classList.add(ok ? 'gut' : 'schlecht');
       st.innerHTML = ok ? 'Danke — Ihre Anfrage ist angekommen. Wir melden uns in der Regel am selben Tag.'
-        : 'Das hat leider nicht geklappt. Rufen Sie uns an unter <a href="tel:+4988114667">0881 4667</a> oder schreiben Sie an <a href="mailto:malerei.mueller@t-online.de">malerei.mueller@t-online.de</a>.';
+        : 'Das hat leider nicht geklappt. Rufen Sie uns an unter <a href="tel:+498814667">0881 4667</a> oder schreiben Sie an <a href="mailto:malerei.mueller@t-online.de">malerei.mueller@t-online.de</a>.';
       history.replaceState(null, '', location.pathname + '#anfrage');
     }
   }
